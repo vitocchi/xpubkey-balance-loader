@@ -10,9 +10,10 @@
     "bitcoin"
   ],
   "dependencies": {
-    "bitcoinjs-lib": "^5.0.1"
+    "bitcoinjs-lib": "^5.0.1",
+    "express": "^4.16.4"
   },
   "scripts": {
-      "start": "node app.js"
+    "start": "node app.js"
   }
 }
