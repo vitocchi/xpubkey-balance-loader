@@ -1,0 +1,4 @@
+#テスト用公開鍵
+
+- testnet
+ tpubD6NzVbkrYhZ4WPFuszbfRUpT4bM7YP9wt89dY5WGm2jXiB2wLGMsEu4hmKrFHXZiGAqSeDM2FaUFsEdujD39efXjwZrVDW5C5nggZunjX2d
