@@ -1,5 +1,9 @@
-var express = require('express');
-var bitcoin = require('bitcoinjs-lib');
+import {
+    express
+} from 'express';
+import {
+    bitcoin
+} from 'bitcoinjs-lib';
 
 var app = express();
 
@@ -15,6 +19,7 @@ app.get('/', function(req, res, next) {
 
 app.get('/xpub/:xpub', function(req, res, next) {
     childXpub = deriveChildXpubKey(req.params.xpub, 0)
+    console.log(childXpub)
     address = getAddress(childXpub, network)
     res.json(address)
 })
