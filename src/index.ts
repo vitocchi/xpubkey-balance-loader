@@ -10,6 +10,7 @@
 //
 //
 import * as bitcoin from 'bitcoinjs-lib'
+import express = require('express')
 import * as request from 'request-promise'
 // tslint:disable-next-line:no-var-requires
 const bs58check = require('bs58check')
@@ -29,21 +30,33 @@ class NodeInfo {
     }
 }
 
-// 調べるacountの初期化
-const account = bitcoin.bip32.fromBase58(
-    ypubToXpub(
-        'ypub6XGKqgJxKyLTsMoR12bRegz4eujtM7PGdhVe95vaRk1oeLxzWzzjBUi9nNGiy48gyaiw7jxzRz1Wb2vMdyceewtoBfcEJ3i5JBCEBiLyYKG'
-        )
-    )
+const app = express()
 
-// accountの残高を調べる
-getAccountBalance(account).then((balance) => {
-    console.log('totalbalance!')
-    console.log(balance)
-}).catch((err) => {
-    console.log('error!')
-    console.log(err)
-})
+app.get(
+    '/balance/:xpubkey',
+    (req: express.Request, res: express.Response) => {
+        const account = bitcoin.bip32.fromBase58(
+            ypubToXpub(req.params.xpubkey.toString())
+        )
+
+        // accountの残高を調べる
+        getAccountBalance(account).then((balance) => {
+            console.log('totalbalance!')
+            console.log(balance)
+            return res.send(balance.toString());
+        }).catch((err) => {
+            console.log('error!')
+            return res.send('error!');
+        })
+    });
+
+app.listen(
+    3000,
+    () => {
+        console.log('Example app listening on port 3000!');
+    });
+
+export default app;
 
 // accountの残高を調べる
 async function getAccountBalance(accountNode: bitcoin.BIP32Interface) {
@@ -108,6 +121,5 @@ function ypubToXpub(ypub: string): string {
     let data = bs58check.decode(ypub)
     data = data.slice(4)
     data = Buffer.concat([Buffer.from('0488b21e', 'hex'), data])
-    const ret = bs58check.encode(data)
-    return ret
+    return bs58check.encode(data)
 }
