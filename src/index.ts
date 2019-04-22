@@ -33,6 +33,12 @@ class NodeInfo {
 const app = express()
 
 app.get(
+    '/',
+    (req: express.Request, res: express.Response) => {
+        return res.send('hello world')
+    })
+
+app.get(
     '/balance/:xpubkey',
     (req: express.Request, res: express.Response) => {
         const account = bitcoin.bip32.fromBase58(

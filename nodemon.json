@@ -1,5 +1,5 @@
 {
     "watch": ["src"],
     "ext": "ts",
-    "exec": "npm run dev"
+    "exec": "$(npm bin)/ts-node src/index.ts"
 }
