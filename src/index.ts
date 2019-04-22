@@ -10,19 +10,19 @@
 //
 //
 import * as bitcoin from 'bitcoinjs-lib'
-import * as request from 'request-promise';
+import * as request from 'request-promise'
 // tslint:disable-next-line:no-var-requires
 const bs58check = require('bs58check')
 
 // blockchain exlolerのurl
-const baseUrl = 'https://blockchain.info/rawaddr/';
+const baseUrl = 'https://blockchain.info/rawaddr/'
 
 const network = bitcoin.networks.bitcoin
 
 // ノードの情報
 class NodeInfo {
-    public isUsed: boolean;
-    public balance: number;
+    public isUsed: boolean
+    public balance: number
     constructor(isUsed: boolean, balance: number) {
         this.isUsed = isUsed
         this.balance = balance
@@ -34,7 +34,7 @@ const account = bitcoin.bip32.fromBase58(
     ypubToXpub(
         'ypub6XGKqgJxKyLTsMoR12bRegz4eujtM7PGdhVe95vaRk1oeLxzWzzjBUi9nNGiy48gyaiw7jxzRz1Wb2vMdyceewtoBfcEJ3i5JBCEBiLyYKG'
         )
-    );
+    )
 
 // accountの残高を調べる
 getAccountBalance(account).then((balance) => {
@@ -48,7 +48,7 @@ getAccountBalance(account).then((balance) => {
 // accountの残高を調べる
 async function getAccountBalance(accountNode: bitcoin.BIP32Interface) {
     const external = accountNode.derive(0)
-    const internal = accountNode.derive(1);
+    const internal = accountNode.derive(1)
     let accountBalance = 0
     console.log('searching external nodes')
     accountBalance += await getChangeBalance(external)
@@ -67,7 +67,7 @@ async function getChangeBalance(changeNode: bitcoin.BIP32Interface) {
         indexNode = changeNode.derive(i)
         const nodeInfo = await getNodeInfo(indexNode)
         if (nodeInfo.isUsed) {
-            gap = 0;
+            gap = 0
             changeBalance += nodeInfo.balance
         } else {
             gap ++
